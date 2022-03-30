@@ -1,4 +1,4 @@
-module Gauss where
+module Gauss (solveLinearEquation) where
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set

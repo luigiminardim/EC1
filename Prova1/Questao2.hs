@@ -1,4 +1,4 @@
-module Questao2 where
+module Prova1.Questao2 where
 
 r1 = 37.6
 

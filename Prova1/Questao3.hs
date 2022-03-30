@@ -1,4 +1,4 @@
-module Questao3 where
+module Prova1.Questao3 where
 
 import Gauss (solveLinearEquation)
 
