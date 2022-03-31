@@ -20,6 +20,12 @@ infixl 5 //
 
 a // b = (a * b) / (a + b)
 
+transformYToDelta (ra, rb, rc) =
+  let sums = ra * rb + ra * rc + rb * rc
+  in (sums / ra, sums / rb, sums / rc)
+
 req =
-  let sum486 = r4 + r8 + r6
-   in ((r1 + r2) // r3 // (sum486 / r6)) // ((sum486 / r8) + (r7 // (sum486 / r4)))
+  let (r4', r6', r8') = transformYToDelta (r4, r6, r8)
+   in (r1 + r2) // (r3 // r6') // ((r5 // r8') + (r7 // r4'))
+
+answer = fromRational  req

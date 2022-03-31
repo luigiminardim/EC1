@@ -20,13 +20,20 @@ gama = 4
 
 [g1, g2, g3, g4, g5] = (1 /) <$> [r1, r2, r3, r4, r5]
 
+-- -v1 + v2 = _VA
+-- (g1 + g2) * v1 + (g3 + g4) * v2 - g4 * v3 + (- g2 - g3) * v4 = gama * ((v1 - v4) * g2)
+-- => (g1 + g2 - gama * g2) * v1 + (g3 + g4) * v2 - g4 * v3 + (- g2 - g3 + gama * g2) * v4 = 0
+-- - g4 * v2 + (g4 + g5) * v3 = - _IB
+-- - g2 * v1 - g3 * v2 + (g2 + g3) * v4 = _IB
 matrix =
   [ [-1, 1, 0, 0],
-    [g1 + g2 - gama * g2, g2 + g4, - g4, gama * g2 - g3],
+    [g1 + g2 - gama * g2, g3 + g4, - g4, - g2 - g3 + gama * g2],
     [0, - g4, g4 + g5, 0],
     [- g2, - g3, 0, g2 + g3]
   ]
 
 result = [_VA, 0, - _IB, _IB]
 
-vs = solveLinearEquation matrix result
+[v1, v2, v3, v4] = solveLinearEquation matrix result
+
+answer = fromRational v2
