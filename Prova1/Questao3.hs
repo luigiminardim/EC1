@@ -2,31 +2,25 @@ module Prova1.Questao3 where
 
 import Gauss (solveLinearEquation)
 
-r1 = 75.8
+r1 = 1900
+r2 = 5000
+r3 = 4300
+r4 = 1000
+r5 = 2500
+r6 = 9400
+r7 = 83000
 
-r2 = 87.4
+infixl 5 //
+a // b = (a * b) / (a + b)
 
-r3 = 70.3
+deltaToY (r1, r2, r3) = let
+  commom = r1 * r2 * r3 / (r1 + r2 + r3)
+  r1' = commom / r1
+  r2' = commom / r2
+  r3' = commom / r3
+  in (r1', r2', r3')
 
-r4 = 46.3
-
-_IA = 0.13
-
-_VA = 9.2
-
-beta = 3
-
--- -i1 + i2 = _IA
--- r4 * i1 + (r2 + r3) * i2 - r2 * i3 = - _VA
--- i3 = beta * (i3 - i2) => beta * i2 + (1 - beta) * i3 = 0
-matrix =
-  [ [r4, r3 + r2, - r2],
-    [-1, 1, 0],
-    [0, beta, 1 - beta]
-  ]
-
-result = [- _VA, _IA, 0]
-
-[i1, i2, i3] = solveLinearEquation matrix result
-
-answer = fromRational i2
+answer = let
+  (r1', r2', r3') = deltaToY (r1, r2, r3)
+  (r5', r6', r7') = deltaToY (r5, r6, r7)
+  in r3' + ((r2' + r4 + r7') // (r1' + r6')) + r5'
