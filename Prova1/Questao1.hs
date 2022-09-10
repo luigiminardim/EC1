@@ -14,4 +14,4 @@ r7 = 2.9
 infixl 5 //
 a // b = (a * b) / (a + b)
 
-answer = ((r4 + r5) // r3) + r2
+answer = r1 // (((r4 + r5) // r3) + r2)

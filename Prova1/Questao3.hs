@@ -5,7 +5,7 @@ import Gauss (solveLinearEquation)
 r1 = 1900
 r2 = 5000
 r3 = 4300
-r4 = 1000
+r4 = 10000
 r5 = 2500
 r6 = 9400
 r7 = 83000
