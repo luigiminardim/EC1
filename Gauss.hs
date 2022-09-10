@@ -58,43 +58,6 @@ gaussFixCoefficients (r : rs) = map (/ factor) r : gaussFixCoefficients rs
   where
     index = leadingZeros r
     factor = r !! index
-
--- converts the matrix row reduced by the Gauss algorithm down to few members to string representation of a result.
--- technically it does not _show_ the results, it also calculates them.
---
--- if a row contains just one number, it is the free member and it will be the resulting variable.
--- if a row contains exactly two numbers, the resulting variable is the free member (last number) over the last coefficient (the first number).
--- if a row contains more numbers, then a simple conversion will be made:
---
--- >>> showVariableValues [3, 4, 5] ["x1", "x2"]
--- "x1 = 5/3 - 4 * x2"
---
--- same as:
---
--- 3x1 + 4x2 = 5
--- 3x1 = 5 - 4x2
--- x1 = (5 - 4x2) / 3
---
--- also, it does not quite work as expected :P
---
-showVariableValues :: Row -> [String] -> String
-showVariableValues r var_names
-  | not (null other_coefficients) = var_str ++ other_vars_str
-  | otherwise = var_str
-  where
-    index = leadingZeros r
-    coefficient = r !! index
-    value = last r
-    raw_row = reverse . drop 1 . reverse $ r -- row coefficients, except the free member
-    elements_count = length raw_row
-    other_coefficients = filter (\(k, k_idx) -> k /= 0 && k_idx /= index) (zip raw_row [0 .. elements_count])
-    subtract_coefficient k = if k < 0 then " + " ++ show (- k) else " - " ++ show k
-    other_vars_str = concatMap (\(k, k_idx) -> subtract_coefficient k ++ " * " ++ var_names !! k_idx) other_coefficients
-    var_str = var_names !! index ++ " = " ++ show (value / coefficient)
-
-gaussExtractResults :: Matrix -> [String] -> String
-gaussExtractResults rows var_names = foldl (\acc row -> showVariableValues row var_names ++ "\n" ++ acc) "" rows
-
 gaussRawSolveMatrix :: Matrix -> Matrix
 gaussRawSolveMatrix mat = mat3
   where
@@ -119,7 +82,8 @@ gaussSolveMatrix mat
 
 solveLinearEquation :: Matrix -> Row -> [Rational]
 solveLinearEquation matrix result = case gaussSolveMatrix combinedMatrix of
-  Gauss.Simple m -> last <$> m
+  Simple m -> last <$> m
+  Infinite m -> last <$> m
   _ -> []
   where
     combinedMatrix = zipWith (\row r -> row ++ [r]) matrix result
